@@ -56,16 +56,16 @@
     - inventory_hostname in groups['k8s_cluster']
     - kube_cert_dir != kube_cert_compat_dir
 
-#- name: Create kubernetes kubeadm compat cert dir (kubernetes/kubeadm issue 1498)
-  #file:
-    #src: "{{ kube_cert_dir }}"
-    #dest: "{{ kube_cert_compat_dir }}"
-    #state: link
-    #mode: 0755
-  #when:
-    #- inventory_hostname in groups['k8s_cluster']
-    #- kube_cert_dir != kube_cert_compat_dir
-    #- not kube_cert_compat_dir_check.stat.exists
+- name: Create kubernetes kubeadm compat cert dir (kubernetes/kubeadm issue 1498)
+  file:
+    src: "{{ kube_cert_dir }}"
+    dest: "{{ kube_cert_compat_dir }}"
+    state: link
+    mode: 0755
+  when:
+    - inventory_hostname in groups['k8s_cluster']
+    - kube_cert_dir != kube_cert_compat_dir
+    - not kube_cert_compat_dir_check.stat.exists
 
 - name: Create cni directories
   file:
